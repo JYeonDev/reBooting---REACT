@@ -1,14 +1,25 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Habit from "./habit";
 import HabitAddForm from "./habitAddForm";
 
-class Habits extends Component {
+class Habits extends PureComponent {
   handleIncrement = (habit) => {
-    this.props.onIncrement(habit);
+    const habits = this.state.habits.map((item) => {
+      if (item.id === habit.id) {
+        return { ...habit, count: habit.count + 1 };
+      }
+      return item;
+    });
   };
 
   handleDecrement = (habit) => {
-    this.props.onDecrement(habit);
+    const habits = this.state.habits.map((item) => {
+      if (item.id === habit.id) {
+        const count = habit.count - 1;
+        return { ...habit, count: count < 0 ? 0 : count };
+      }
+      return item;
+    });
   };
 
   handleDelete = (habit) => {
